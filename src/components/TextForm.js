@@ -5,7 +5,7 @@ export default function TextForm(props){
     const [text,setText] = useState('');
     const [bold,setBold] = useState(false);
     const [uniqueWords, setUniqueWords] = useState(new Set());
-    const [shortestWordLength, setShortestWordLength] = useState('');
+    const [shortestWordLength, setShortestWordLength] = useState(0);
 
     const words = text.split(/\s+/).filter(Boolean);
     const wordCount = words.length;
@@ -21,7 +21,7 @@ export default function TextForm(props){
         let newWords = text.split(/\s+/).filter(Boolean);
         setUniqueWords(new Set(newWords)); 
 
-        shortestWord();
+        shortestWord(newWords);
     }
 
     const convertToUpper = () => {
@@ -44,9 +44,11 @@ export default function TextForm(props){
     const clearText = () => {
         console.log('TextArea is cleared');
         setText('');
+        setShortestWordLength(0);
+        setUniqueWords(new Set());
     }
 
-    const shortestWord = () => {
+    const shortestWord = (words) => {
         if(words.length === 0) return 0;
 
         const shortestLength = words.reduce((value,word) => {
